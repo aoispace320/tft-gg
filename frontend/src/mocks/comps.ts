@@ -1,0 +1,80 @@
+import type { Comp } from '@/types/domain';
+
+export const mockComps: Comp[] = [
+  {
+    id: 'soul-mage',
+    name: '영혼 마법사',
+    tier: 'S',
+    coreUnits: ['Ahri', 'Syndra', 'Lux', 'Ryze'],
+    avgPlacement: 3.9,
+    playRate: 0.142,
+    description: '영혼 시너지로 주문력을 극대화하는 후반 캐리 마법사 조합.',
+  },
+  {
+    id: 'duelist-reroll',
+    name: '결투가 리롤',
+    tier: 'S',
+    coreUnits: ['Jax', 'Zed', 'Yasuo', 'Viego'],
+    avgPlacement: 4.1,
+    playRate: 0.118,
+    description: '3성 결투가를 빠르게 확보해 공속으로 압박하는 리롤 조합.',
+  },
+  {
+    id: 'voidborn',
+    name: '공허 사수',
+    tier: 'A',
+    coreUnits: ['Kaisa', 'Ashe', 'Kennen'],
+    avgPlacement: 4.4,
+    playRate: 0.097,
+    description: '공허·사수 시너지 기반의 안정적인 원거리 딜 조합.',
+  },
+  {
+    id: 'shadow-assassin',
+    name: '그림자 암살자',
+    tier: 'A',
+    coreUnits: ['Kayn', 'Zed', 'Ahri'],
+    avgPlacement: 4.5,
+    playRate: 0.081,
+    description: '후열 침투로 캐리를 끊는 하이리스크 하이리턴 조합.',
+  },
+  {
+    id: 'guardian-tank',
+    name: '수호자 탱커',
+    tier: 'B',
+    coreUnits: ['Poppy', 'Jax', 'Sett'],
+    avgPlacement: 4.6,
+    playRate: 0.074,
+    description: '수호자 방어력으로 버티며 후반을 도모하는 탱키 조합.',
+  },
+  {
+    id: 'light-support',
+    name: '빛의 인도자',
+    tier: 'B',
+    coreUnits: ['Sona', 'Lux'],
+    avgPlacement: 4.7,
+    playRate: 0.058,
+    description: '지속 회복·보호막으로 팀 전체를 유지하는 유틸 조합.',
+  },
+  {
+    id: 'yordle-fun',
+    name: '요들 리롤',
+    tier: 'C',
+    coreUnits: ['Poppy', 'Kennen'],
+    avgPlacement: 5.1,
+    playRate: 0.033,
+    description: '저비용 요들 다수로 초반 연승을 노리는 유동 조합.',
+  },
+  {
+    id: 'sage-flex',
+    name: '현자 플렉스',
+    tier: 'D',
+    coreUnits: ['Ryze'],
+    avgPlacement: 5.6,
+    playRate: 0.019,
+    description: '증강체 의존도가 높은 실험적 유연 조합.',
+  },
+];
+
+export const mockCompsById: Record<string, Comp> = Object.fromEntries(
+  mockComps.map((c) => [c.id, c]),
+);

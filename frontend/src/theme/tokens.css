@@ -1,0 +1,23 @@
+/* §3.1 디자인 토큰 — CSS 변수 (Tailwind 커스텀 컬러와 1:1 매핑) */
+:root {
+  /* 배경 */
+  --bg-base: #0a1428;
+  --bg-surface: #0f2027;
+  --bg-elevated: #132b34;
+
+  /* 강조 */
+  --accent-gold: #c8aa6e;
+  --accent-gold-bright: #f0e6d2;
+  --accent-teal: #0ac8b9;
+
+  /* 텍스트 */
+  --text-primary: #f0e6d2;
+  --text-muted: #a09b8c;
+
+  /* 라인 */
+  --border: #785a28;
+
+  /* §3.2 라운드 */
+  --radius-card: 8px;
+  --radius-btn: 6px;
+}
