@@ -5,6 +5,8 @@ import datetime
 import time
 import dotenv
 import os
+import pandas as pd
+import numpy as np
 
 dotenv.load_dotenv()
 
@@ -133,8 +135,68 @@ for idx, match_id in enumerate(match_ids, start=1):
     else:
         print(f"  [{idx}] 이 매치에서는 유저를 찾을 수 없습니다.")
 
+tier_url = f"https://kr.api.riotgames.com/tft/league/v1/by-puuid/{puuid}"
+tier_res = requests.get(tier_url, headers=headers)
+
+if tier_res.status_code != 200 :
+    print(f'요청이 제대로 되지 않았습니다. 오류 코드 : {tier_res.status_code}')
+    exit()
+
+user_tft_league_data = tier_res.json()
+
+'''for entry in user_tft_league_data :
+    print(entry.get('queueType'))
+출력 예시 : [{"puuid":"cbiztZn7SpeQbCpkxvAYZigc7-XVtPqpVCN9pMy4J-Rtb1B-vcextkYvRl4pKgK6oAlKN9plfW3pPQ","queueType":"RANKED_TFT_DOUBLE_UP","tier":"GOLD","rank":"IV","leaguePoints":79,"wins":9,"losses":0,"veteran":false,"inactive":false,"freshBlood":false,"hotStreak":true},{"puuid":"cbiztZn7SpeQbCpkxvAYZigc7-XVtPqpVCN9pMy4J-Rtb1B-vcextkYvRl4pKgK6oAlKN9plfW3pPQ","queueType":"RANKED_TFT","tier":"CHALLENGER","rank":"I","leaguePoints":1715,"wins":289,"losses":175,"veteran":true,"inactive":false,"freshBlood":false,"hotStreak":true}]'''
+
+if not user_tft_league_data :
+    print(f'{riot_id}님의 랭크 기록이 없습니다.')
+    
+else :
+    for data in user_tft_league_data :
+        queueType = data.get('queueType')
+        wins = data.get('wins')
+        losses = data.get('losses')
+
+        if queueType == 'RANKED_TFT' :
+            rank = data.get('rank')
+            tier = data.get('tier')
+            leaguePoints = data.get('leaguePoints')
+            top_4_rate = wins / (wins + losses) * 100
+            print(f'[솔로랭크] {riot_id}님은 {tier} {rank}, {leaguePoints}LP ({wins}승 {losses}패)로 TOP 4 비율은 {top_4_rate:.2f}%')
+            
+        elif queueType == 'RANKED_TFT_DOUBLE_UP' :
+            rank = data.get('rank')
+            tier = data.get('tier')
+            leaguePoints = data.get('leaguePoints')
+            top_4_rate = wins / (wins + losses) * 100
+            print(f'[더블업] {riot_id}님은 {tier} {rank}, {leaguePoints}LP ({wins}승 {losses}패)로, TOP 4 비율은 {top_4_rate:.2f}%')
+
+        elif queueType == 'RANKED_TFT_TURBO' :
+            ratedTier = data.get('ratedTier')
+            ratedRating = data.get('ratedRating')
+            top_4_rate = wins / (wins + losses) * 100
+            print(f'[하이퍼롤] {riot_id}님은 {ratedTier} 티어, {ratedRating}점 ({wins}승 {losses}패)로 TOP 4 비율은 {top_4_rate:.2f}%')
 
 
+challenger_url = 'https://kr.api.riotgames.com/tft/league/v1/challenger'
+challenger_res = requests.get(challenger_url, headers = headers)
+
+challenger_data = challenger_res.json()
+
+entry = challenger_data.get('entries')
+
+top10 = sorted(entry, key=lambda x : x.get('leaguePoints', 0), reverse=True)[:10]
 
 
+for idx, player in enumerate(top10, start = 1) :
+    puuid = player.get('puuid')
+    lp = player.get('leaguePoints')
+    wins = player.get('wins')
+    losses = player.get('losses')
+    rank = player.get('rank')
 
+    summoner_name = f"https://asia.api.riotgames.com/riot/account/v1/accounts/by-puuid/{puuid}"
+    summoner_res = requests.get(summoner_name, headers=headers)
+    if summoner_res.status_code == 200:
+        summoner_data = summoner_res.json()
+        print(f"한국 서버 {idx}등: {summoner_data.get('gameName')}#{summoner_data.get('tagLine')}")
