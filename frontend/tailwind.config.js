@@ -4,24 +4,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        // §3.1 컬러 토큰 (LoL 딥 틸 + 골드 다크 테마)
+        // §3.1 컬러 토큰 (op.gg / lolchess.gg 참고 — 모던 다크 + 블루 포인트)
         bg: {
-          base: '#0A1428',
-          surface: '#0F2027',
-          elevated: '#132B34',
+          base: '#1C1C1F',
+          surface: '#28282C',
+          elevated: '#31313C',
+        },
+        // 브랜드 포인트 (op.gg 블루). 기존 클래스명 호환을 위해 gold 이름 유지.
+        brand: {
+          DEFAULT: '#5383E8',
+          bright: '#9CB8F5',
         },
         gold: {
-          DEFAULT: '#C8AA6E',
-          bright: '#F0E6D2',
+          DEFAULT: '#5383E8',
+          bright: '#EBEEF1',
         },
         teal: {
-          DEFAULT: '#0AC8B9',
+          DEFAULT: '#00BBA3',
         },
+        // 승/패 지표 색 (op.gg 승률 색상)
+        win: '#5383E8',
+        lose: '#E84057',
         text: {
-          primary: '#F0E6D2',
-          muted: '#A09B8C',
+          primary: '#EBEEF1',
+          muted: '#9AA4AF',
         },
-        line: '#785A28',
+        line: '#3C3C41',
         // §3.3 티어 색상 (랭크)
         tier: {
           challenger: '#F4C874',
@@ -35,38 +43,35 @@ export default {
           bronze: '#8C5A3C',
           iron: '#5C5C5C',
         },
-        // §3.3 조합/챔피언 티어 배지 (S/A/B/C/D)
+        // §3.3 조합/챔피언 티어 배지 (S/A/B/C/D — lolchess 메타 티어 팔레트)
         rank: {
-          s: '#FF7676',
-          a: '#F0A868',
-          b: '#F0E6D2',
-          c: '#68C3F0',
+          s: '#E84057',
+          a: '#F19000',
+          b: '#EBBC00',
+          c: '#5CB100',
           d: '#8896A0',
         },
-        // 챔피언 코스트 색상
+        // 챔피언 코스트 색상 (TFT 표준)
         cost: {
-          1: '#8B8B8B',
-          2: '#1BC868',
-          3: '#0A8FE0',
-          4: '#C13FD6',
+          1: '#848999',
+          2: '#11B288',
+          3: '#207AC7',
+          4: '#C440DA',
           5: '#F4C874',
         },
       },
       fontFamily: {
-        // §3.2 헤드라인 세리프(Beaufort 대체 Spectral), 본문 산세리프
-        display: ['Spectral', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif'],
-      },
-      spacing: {
-        // §3.2 4px 스케일 (기본 tailwind 스케일이 이미 4px 기준)
+        // op.gg 계열 — 전면 산세리프 (헤드라인도 동일 패밀리, 굵기로 위계)
+        display: ['Inter', 'Noto Sans KR', 'system-ui', 'Segoe UI', 'sans-serif'],
+        sans: ['Inter', 'Noto Sans KR', 'system-ui', 'Segoe UI', 'sans-serif'],
       },
       borderRadius: {
         card: '8px',
         btn: '6px',
       },
       boxShadow: {
-        'teal-glow': '0 0 0 1px rgba(120, 90, 40, 0.6), 0 0 16px -4px rgba(10, 200, 185, 0.25)',
-        'gold-glow': '0 0 12px -2px rgba(200, 170, 110, 0.35)',
+        'teal-glow': '0 4px 16px -4px rgba(0, 0, 0, 0.45)',
+        'gold-glow': '0 0 0 2px rgba(83, 131, 232, 0.35)',
       },
       keyframes: {
         shimmer: {

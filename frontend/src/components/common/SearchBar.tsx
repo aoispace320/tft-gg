@@ -10,7 +10,8 @@ interface SearchBarProps {
   autoFocus?: boolean;
 }
 
-/** 지역 셀렉트 + 소환사명 입력. 제출 시 /summoner/:region/:name 으로 이동. */
+/** 지역 셀렉트 + 소환사명 입력. 제출 시 /summoner/:region/:name 으로 이동.
+ *  op.gg 스타일 — sm: 헤더용 다크 필 바 / lg: 히어로용 화이트 대형 바 */
 export function SearchBar({ size = 'sm', className, autoFocus }: SearchBarProps) {
   const navigate = useNavigate();
   const [region, setRegion] = useState(DEFAULT_REGION);
@@ -29,37 +30,60 @@ export function SearchBar({ size = 'sm', className, autoFocus }: SearchBarProps)
     <form
       onSubmit={submit}
       className={classNames(
-        'flex items-stretch overflow-hidden rounded-btn border border-line/60 bg-bg-elevated focus-within:border-gold focus-within:shadow-gold-glow',
-        lg ? 'h-12 text-base' : 'h-9 text-sm',
+        'flex items-center overflow-hidden rounded-full',
+        lg
+          ? 'h-14 bg-white pl-2 pr-2 text-base shadow-lg'
+          : 'h-9 bg-bg-elevated pl-1 pr-1 text-sm focus-within:shadow-gold-glow',
         className,
       )}
     >
-      <select
-        value={region}
-        onChange={(e) => setRegion(e.target.value)}
-        aria-label="지역 선택"
-        className="border-r border-line/40 bg-bg-surface px-2 text-text-primary focus:outline-none"
+      <label
+        className={classNames(
+          'flex shrink-0 flex-col justify-center border-r px-3',
+          lg ? 'border-gray-200' : 'border-line/60',
+        )}
       >
-        {REGIONS.map((r) => (
-          <option key={r.code} value={r.code}>
-            {r.code.toUpperCase()}
-          </option>
-        ))}
-      </select>
+        {lg && <span className="text-[10px] font-bold uppercase text-gray-400">지역</span>}
+        <select
+          value={region}
+          onChange={(e) => setRegion(e.target.value)}
+          aria-label="지역 선택"
+          className={classNames(
+            'bg-transparent font-semibold focus:outline-none',
+            lg ? 'text-sm text-gray-800' : 'text-xs text-text-primary',
+          )}
+        >
+          {REGIONS.map((r) => (
+            <option key={r.code} value={r.code}>
+              {r.code.toUpperCase()}
+            </option>
+          ))}
+        </select>
+      </label>
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="소환사명 검색"
+        placeholder={lg ? '플레이어 이름 + #KR1' : '소환사명 검색'}
         autoFocus={autoFocus}
         aria-label="소환사명"
-        className="min-w-0 flex-1 bg-transparent px-3 text-text-primary placeholder:text-text-muted focus:outline-none"
+        className={classNames(
+          'min-w-0 flex-1 bg-transparent px-3 focus:outline-none',
+          lg
+            ? 'text-gray-900 placeholder:text-gray-400'
+            : 'text-text-primary placeholder:text-text-muted',
+        )}
       />
       <button
         type="submit"
         aria-label="검색"
-        className="flex items-center gap-1 bg-gold px-3 font-semibold text-bg-base transition-colors hover:bg-gold-bright"
+        className={classNames(
+          'flex shrink-0 items-center justify-center rounded-full font-extrabold transition-colors',
+          lg
+            ? 'h-10 px-5 text-brand hover:bg-brand/10'
+            : 'h-7 w-12 bg-brand text-xs text-white hover:bg-brand-bright',
+        )}
       >
-        🔍{lg && <span className="hidden sm:inline">검색</span>}
+        .GG
       </button>
     </form>
   );

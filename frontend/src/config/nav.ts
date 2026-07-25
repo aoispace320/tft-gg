@@ -6,6 +6,7 @@ export interface NavTab {
 }
 
 export const NAV_TABS: NavTab[] = [
+  { label: '홈', to: '/', match: '/' },
   { label: '전적검색', to: '/search', match: '/search' },
   { label: '데이터 통계', to: '/statistics', match: '/statistics' },
   { label: '아이템', to: '/items', match: '/items' },

@@ -1,21 +1,22 @@
-/* §3.1 디자인 토큰 — CSS 변수 (Tailwind 커스텀 컬러와 1:1 매핑) */
+/* §3.1 디자인 토큰 — CSS 변수 (Tailwind 커스텀 컬러와 1:1 매핑)
+   op.gg / lolchess.gg 참고 — 모던 다크 + 블루 포인트 */
 :root {
   /* 배경 */
-  --bg-base: #0a1428;
-  --bg-surface: #0f2027;
-  --bg-elevated: #132b34;
+  --bg-base: #1c1c1f;
+  --bg-surface: #28282c;
+  --bg-elevated: #31313c;
 
   /* 강조 */
-  --accent-gold: #c8aa6e;
-  --accent-gold-bright: #f0e6d2;
-  --accent-teal: #0ac8b9;
+  --accent-brand: #5383e8;
+  --accent-brand-bright: #9cb8f5;
+  --accent-teal: #00bba3;
 
   /* 텍스트 */
-  --text-primary: #f0e6d2;
-  --text-muted: #a09b8c;
+  --text-primary: #ebeef1;
+  --text-muted: #9aa4af;
 
   /* 라인 */
-  --border: #785a28;
+  --border: #3c3c41;
 
   /* §3.2 라운드 */
   --radius-card: 8px;

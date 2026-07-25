@@ -9,43 +9,44 @@ export function NavBar() {
   const location = useLocation();
 
   function isActive(match: string) {
+    if (match === '/') return location.pathname === '/';
     return location.pathname === match || location.pathname.startsWith(match + '/');
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/40 bg-bg-elevated/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-line/60 bg-bg-surface">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-5 px-4 sm:px-6 lg:px-8">
         {/* 로고 */}
-        <Link to="/statistics" className="flex shrink-0 items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded bg-gold text-lg font-black text-bg-base">
+        <Link to="/" className="flex shrink-0 items-center gap-1.5">
+          <span className="grid h-7 w-7 place-items-center rounded bg-brand text-base font-black text-white">
             T
           </span>
-          <span className="font-display text-xl font-bold tracking-tight text-gold-bright">
-            tft<span className="text-gold">.gg</span>
+          <span className="text-lg font-extrabold tracking-tight text-white">
+            TFT<span className="text-brand">.GG</span>
           </span>
         </Link>
 
-        {/* 데스크톱 탭 */}
-        <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex">
+        {/* 데스크톱 탭 (op.gg 스타일 — 로고 옆 좌측 정렬) */}
+        <nav className="hidden h-full flex-1 items-stretch gap-1 lg:flex">
           {NAV_TABS.map((tab) => (
             <NavLink
               key={tab.to}
               to={tab.to}
               className={classNames(
-                'relative px-3 py-2 text-sm font-medium transition-colors',
-                isActive(tab.match) ? 'text-gold-bright' : 'text-text-muted hover:text-text-primary',
+                'relative flex items-center px-3 text-sm font-bold transition-colors',
+                isActive(tab.match) ? 'text-white' : 'text-text-muted hover:text-text-primary',
               )}
             >
               {tab.label}
               {isActive(tab.match) && (
-                <span className="absolute inset-x-2 -bottom-[21px] h-0.5 rounded-full bg-gold shadow-[0_0_8px_0_rgba(200,170,110,0.7)]" />
+                <span className="absolute inset-x-2 bottom-0 h-[3px] rounded-t-full bg-brand" />
               )}
             </NavLink>
           ))}
         </nav>
 
         {/* 검색바 */}
-        <div className="ml-auto hidden w-64 lg:block">
+        <div className="ml-auto hidden w-72 lg:block">
           <SearchBar />
         </div>
 
@@ -61,7 +62,7 @@ export function NavBar() {
 
       {/* 모바일 메뉴 */}
       {mobileOpen && (
-        <div className="border-t border-line/30 bg-bg-elevated px-4 py-3 lg:hidden">
+        <div className="border-t border-line/40 bg-bg-surface px-4 py-3 lg:hidden">
           <div className="mb-3">
             <SearchBar />
           </div>
@@ -74,8 +75,8 @@ export function NavBar() {
                 className={classNames(
                   'rounded px-3 py-2 text-sm font-medium',
                   isActive(tab.match)
-                    ? 'bg-bg-surface text-gold-bright'
-                    : 'text-text-muted hover:bg-bg-surface',
+                    ? 'bg-bg-elevated text-white'
+                    : 'text-text-muted hover:bg-bg-elevated',
                 )}
               >
                 {tab.label}

@@ -4,8 +4,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-text-muted sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <p className="font-display text-base font-bold text-gold-bright">
-              tft<span className="text-gold">.gg</span>
+            <p className="text-base font-extrabold text-white">
+              TFT<span className="text-brand">.GG</span>
             </p>
             <p className="mt-1 text-xs">롤토체스 전적·통계·메타 정보 서비스</p>
           </div>

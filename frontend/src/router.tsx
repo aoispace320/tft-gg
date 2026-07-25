@@ -1,5 +1,6 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { HomePage } from '@/pages/HomePage';
 import { SearchPage } from '@/pages/SearchPage';
 import { SummonerPage } from '@/pages/SummonerPage';
 import { StatisticsPage } from '@/pages/StatisticsPage';
@@ -16,8 +17,8 @@ export const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      // §9-2 홈(/) → /statistics 리다이렉트
-      { path: '/', element: <Navigate to="/statistics" replace /> },
+      // 홈 — 히어로 검색 + 추천 메타 + 랭킹 TOP 10 (op.gg/lolchess 참고)
+      { path: '/', element: <HomePage /> },
       { path: '/search', element: <SearchPage /> },
       { path: '/summoner/:region/:name', element: <SummonerPage /> },
       { path: '/statistics', element: <StatisticsPage /> },

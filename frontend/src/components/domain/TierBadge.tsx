@@ -2,10 +2,10 @@ import type { CompTier } from '@/types/domain';
 import { classNames } from '@/lib/format';
 
 const tierColor: Record<CompTier, string> = {
-  S: 'bg-rank-s text-bg-base',
-  A: 'bg-rank-a text-bg-base',
+  S: 'bg-rank-s text-white',
+  A: 'bg-rank-a text-white',
   B: 'bg-rank-b text-bg-base',
-  C: 'bg-rank-c text-bg-base',
+  C: 'bg-rank-c text-white',
   D: 'bg-rank-d text-bg-base',
 };
 

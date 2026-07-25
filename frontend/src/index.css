@@ -20,7 +20,7 @@
     @apply font-display;
   }
 
-  /* 은은한 골드 스크롤바 */
+  /* 다크 그레이 스크롤바 (op.gg 스타일) */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -29,32 +29,31 @@
     background: var(--bg-base);
   }
   ::-webkit-scrollbar-thumb {
-    background: #1c3a44;
+    background: #3c3c41;
     border-radius: 6px;
     border: 2px solid var(--bg-base);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--border);
+    background: #52525e;
   }
 
   ::selection {
-    background: rgba(200, 170, 110, 0.3);
-    color: var(--accent-gold-bright);
+    background: rgba(83, 131, 232, 0.35);
+    color: #ffffff;
   }
 }
 
 @layer components {
-  /* 골드 보더 + 은은한 틸 글로우 카드 (§3.2) */
+  /* 플랫 다크 카드 (op.gg 스타일) */
   .surface-card {
     @apply bg-bg-surface border border-line/60 rounded-card;
   }
 
   .gold-underline {
-    @apply relative text-gold-bright;
+    @apply relative text-text-primary;
   }
   .gold-underline::after {
     content: '';
-    @apply absolute left-0 -bottom-[10px] h-[2px] w-full bg-gold;
-    box-shadow: 0 0 8px 0 rgba(200, 170, 110, 0.6);
+    @apply absolute left-0 -bottom-[10px] h-[2px] w-full bg-brand;
   }
 }
