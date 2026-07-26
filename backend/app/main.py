@@ -1,20 +1,27 @@
 """tft-gg 백엔드 API (FastAPI).
 
 프론트엔드(frontend/src/api/*)가 기대하는 형식 그대로 JSON을 반환한다.
+
+[전처리 데이터 기반 — 오프라인]
 - /api/statistics : 전처리 데이터로 계산한 메타 통계
 - /api/comps      : 전처리 데이터로 뽑은 조합 목록
 - /api/champions  : DDragon 로컬 미러 챔피언 목록
 - /api/items      : DDragon 로컬 미러 아이템 목록
 
+[라이브 Riot API 기반 — 커밋 f48fe45 프로토타입 로직을 되살림]
+- /api/summoner/{region}/{name} : 전적검색 (소환사 티어 + 최근 매치 등수)
+- /api/leaderboard              : 서버 랭킹 (챌린저/그마/마스터)
+
 실행: backend 폴더에서  uvicorn app.main:app --reload --port 8000
-(기존 Riot 프로토타입 스크립트는 git 이력 및 pipeline/ 에 로직이 남아 있음)
+원본 CLI 출력 그대로 보기: backend 폴더에서  python -m app.cli
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from .services import dataset, static_data
+from .services import dataset, riot_live, static_data
+from .services.riot_live import RiotError
 
-app = FastAPI(title="tft-gg API", version="0.1.0")
+app = FastAPI(title="tft-gg API", version="0.2.0")
 
 # 개발용: Vite 프론트(다른 포트)에서 호출 허용
 app.add_middleware(
@@ -27,9 +34,21 @@ app.add_middleware(
 
 @app.get("/")
 def health():
-    return {"status": "ok", "service": "tft-gg", "endpoints": ["/api/statistics", "/api/comps", "/api/champions", "/api/items"]}
+    return {
+        "status": "ok",
+        "service": "tft-gg",
+        "endpoints": [
+            "/api/statistics",
+            "/api/comps",
+            "/api/champions",
+            "/api/items",
+            "/api/summoner/{region}/{name}",
+            "/api/leaderboard",
+        ],
+    }
 
 
+# ── 전처리 데이터 기반 ────────────────────────────────────────────
 @app.get("/api/statistics")
 def statistics(patch: str | None = None, tier: str | None = None):
     return dataset.compute_statistics()
@@ -50,20 +69,20 @@ def items():
     return static_data.items()
 
 
-# ── Phase 2 (라이브 Riot API) 자리표시 스텁 ─────────────────────
-# 아직 미구현. 실API 모드에서 프론트가 에러나지 않도록 빈/기본 응답을 준다.
+# ── 라이브 Riot API 기반 ──────────────────────────────────────────
 @app.get("/api/leaderboard")
-def leaderboard(region: str | None = None, tier: str | None = None, page: int = 1):
-    return {"rows": [], "total": 0}
+def leaderboard(region: str = "kr", tier: str = "all", page: int = 1):
+    """서버 랭킹. 원본 프로토타입의 '한국 서버 전체 10등 출력' 을 페이지 단위로 확장한 것."""
+    try:
+        return riot_live.leaderboard(region=region, tier=tier, page=page)
+    except RiotError as e:
+        raise HTTPException(status_code=e.status, detail=e.message)
 
 
 @app.get("/api/summoner/{region}/{name}")
 def summoner(region: str, name: str):
-    return {
-        "name": name,
-        "region": region,
-        "tier": "-",
-        "lp": 0,
-        "level": 0,
-        "matches": [],
-    }
+    """전적검색. name 은 '소환사명#태그' 형식(태그 생략 시 지역 기본 태그 사용)."""
+    try:
+        return riot_live.summoner_profile(region=region, raw_name=name)
+    except RiotError as e:
+        raise HTTPException(status_code=e.status, detail=e.message)
