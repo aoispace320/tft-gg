@@ -18,4 +18,7 @@ export const mockStatistics: MetaStats = {
     { id: 'a5', name: '증강 마스터', tier: 'prismatic', pickRate: 0.066, avgPlacement: 3.9 },
   ],
   topComps: mockComps.slice(0, 5),
+  // 목 모드에서는 데이터가 있는 상태를 가정한다 (NFR-6 회귀 방지).
+  hasData: true,
+  supportedFilters: { patch: true, tier: true },
 };

@@ -2,3 +2,8 @@ requests
 python-dotenv
 fastapi
 uvicorn
+# services/dataset.py 와 pipeline/processor/preprocess.py 가 사용한다.
+# 기존에 선언이 누락되어 있어 깨끗한 환경에서 설치하면 통계·조합 API 가 ImportError 로 죽었다.
+pandas
+# 단위 테스트 (backend/tests/)
+pytest

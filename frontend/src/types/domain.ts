@@ -66,6 +66,10 @@ export interface MetaStats {
   summary: StatCard[];
   topAugments: AugmentStat[];
   topComps: Comp[];
+  /** 전처리 데이터(data/processed/*.csv) 수집 여부. false 면 통계가 비어 있다. */
+  hasData?: boolean;
+  /** 백엔드가 실제로 지원하는 필터. 미지원 항목은 UI 에서 비활성화한다. */
+  supportedFilters?: { patch: boolean; tier: boolean };
 }
 
 // --- 아이템 ---

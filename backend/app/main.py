@@ -51,7 +51,21 @@ def health():
 # ── 전처리 데이터 기반 ────────────────────────────────────────────
 @app.get("/api/statistics")
 def statistics(patch: str | None = None, tier: str | None = None):
-    return dataset.compute_statistics()
+    """메타 통계.
+
+    patch·tier 파라미터는 받되 아직 필터링에 쓰지 않는다. 전처리 데이터가 있어야
+    의미 있는 필터가 가능하기 때문이다. 프론트가 '필터가 동작하지 않는다'는 사실을
+    알 수 있도록 supportedFilters 로 지원 여부를 함께 알린다.
+    (프론트는 이 값으로 드롭다운을 비활성화한다.)
+    """
+    result = dataset.compute_statistics()
+    has_data = dataset.has_data()
+    return {
+        **result,
+        "hasData": has_data,
+        # 데이터가 생기면 여기부터 True 로 바꾸고 실제 필터링을 구현하면 된다.
+        "supportedFilters": {"patch": False, "tier": False},
+    }
 
 
 @app.get("/api/comps")

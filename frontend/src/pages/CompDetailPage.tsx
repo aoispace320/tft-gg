@@ -8,19 +8,24 @@ import { UnitList } from '@/components/domain/UnitList';
 import { QueryBoundary } from '@/components/feedback/QueryBoundary';
 import { Skeleton } from '@/components/feedback/Skeleton';
 import { EmptyState } from '@/components/feedback/EmptyState';
+import { DataNotCollected } from '@/components/feedback/DataNotCollected';
 import { pct } from '@/lib/format';
 
 export function CompDetailPage() {
   const { id = '' } = useParams();
   const query = useComps();
-  const comp = query.data?.find((c) => c.id === id);
+  const comps = query.data ?? [];
+  const comp = comps.find((c) => c.id === id);
+
+  // 조합 목록 자체가 비었다면 '이 조합이 없다'가 아니라 '아직 수집 전'이다.
+  const noData = !query.isLoading && !query.isError && comps.length === 0;
 
   return (
     <div>
       <PageHeader
         title="조합 상세"
         actions={
-          <Link to="/comps" className="text-sm text-teal hover:text-gold-bright">
+          <Link to="/comps" className="text-sm text-teal hover:text-brand-bright">
             ← 전략가 목록
           </Link>
         }
@@ -32,7 +37,16 @@ export function CompDetailPage() {
         isEmpty={!query.isLoading && !comp}
         onRetry={() => query.refetch()}
         skeleton={<Skeleton className="h-64 w-full" />}
-        empty={<EmptyState title="조합을 찾을 수 없음" message={`'${id}' 조합이 존재하지 않습니다.`} icon="❓" />}
+        empty={
+          noData ? (
+            <DataNotCollected
+              message="조합 상세는 수집·전처리된 매치 데이터에서 계산합니다. 아직 수집된 데이터가 없습니다."
+              icon="🗺️"
+            />
+          ) : (
+            <EmptyState title="조합을 찾을 수 없음" message={`'${id}' 조합이 존재하지 않습니다.`} icon="❓" />
+          )
+        }
       >
         {comp && (
           <div className="space-y-6">
@@ -40,7 +54,7 @@ export function CompDetailPage() {
               <div className="flex flex-wrap items-center gap-4">
                 <TierBadge tier={comp.tier} size="lg" />
                 <div className="flex-1">
-                  <h2 className="font-display text-2xl font-bold text-gold-bright">{comp.name}</h2>
+                  <h2 className="font-display text-2xl font-bold text-brand-bright">{comp.name}</h2>
                   <p className="mt-1 text-sm text-text-muted">{comp.description}</p>
                 </div>
                 <div className="flex gap-2">
